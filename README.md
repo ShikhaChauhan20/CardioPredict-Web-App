@@ -15,11 +15,3 @@ A full-stack Machine Learning application that uses clinical patient data to pre
 
 ---
 
-## 💻 Local Deployment Guide
-
-If you want to run this project on your own machine:
-
-### 1. Clone and Navigate
-```bash
-git clone [https://github.com/ShikhaChauhan20/Heart-Disease-Prediction-ML.git](https://github.com/ShikhaChauhan20/Heart-Disease-Prediction-ML.git)
-cd Heart-Disease-Prediction-ML
