@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Disease Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #f8f9ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 24px;
+      padding: 48px 40px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+    }
+    .header { text-align: center; margin-bottom: 36px; }
+    .header h1 { font-size: 2rem; color: #1a1a2e; margin-bottom: 8px; }
+    .header p  { color: #666; font-size: 0.95rem; }
+    .heart-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 13px; font-weight: 600; color: #444; }
+    input, select {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 2px solid #e8e8f0;
+      font-size: 14px;
+      font-family: 'Nunito', sans-serif;
+      color: #1a1a2e;
+      transition: border-color .2s;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: #e63946; }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: #e63946;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(230,57,70,0.35); }
+    
+    .result {
+      margin-top: 24px;
+      padding: 20px 24px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      background: #f8f9ff;
+      border: 2px solid;
+    }
+    .result.red   { border-color: #e63946; color: #e63946; background: #fff5f5; }
+    .result.green { border-color: #2dc653; color: #2dc653; background: #f5fff8; }
+    .result.orange{ border-color: #ff9f1c; color: #ff9f1c; background: #fffbf0; }
+    .note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+    }
+    @media(max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <span class="heart-icon">🫀</span>
+    <h1>Heart Disease Predictor</h1>
+    <p>Enter patient details below to predict heart disease risk using Machine Learning</p>
+  </div>
+
+  <form action="/predict" method="POST">
+    <div class="grid">
+      <div class="field">
+        <label>Age</label>
+        <input type="number" name="age" placeholder="e.g. 52" min="1" max="120" required/>
+      </div>
+      <div class="field">
+        <label>Sex</label>
+        <select name="sex">
+          <option value="1">Male</option>
+          <option value="0">Female</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Chest Pain Type</label>
+        <select name="cp">
+          <option value="0">Typical Angina</option>
+          <option value="1">Atypical Angina</option>
+          <option value="2">Non-anginal Pain</option>
+          <option value="3">Asymptomatic</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Resting Blood Pressure</label>
+        <input type="number" name="trestbps" placeholder="e.g. 120 mmHg" required/>
+      </div>
+      <div class="field">
+        <label>Cholesterol (mg/dl)</label>
+        <input type="number" name="chol" placeholder="e.g. 200" required/>
+      </div>
+      <div class="field">
+        <label>Fasting Blood Sugar > 120</label>
+        <select name="fbs">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Resting ECG</label>
+        <select name="restecg">
+          <option value="0">Normal</option>
+          <option value="1">ST-T Abnormality</option>
+          <option value="2">Left Ventricular Hypertrophy</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Max Heart Rate</label>
+        <input type="number" name="thalach" placeholder="e.g. 150" required/>
+      </div>
+      <div class="field">
+        <label>Exercise Induced Angina</label>
+        <select name="exang">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>ST Depression (Oldpeak)</label>
+        <input type="number" name="oldpeak" placeholder="e.g. 1.0" step="0.1" required/>
+      </div>
+      <div class="field">
+        <label>Slope of ST Segment</label>
+        <select name="slope">
+          <option value="0">Upsloping</option>
+          <option value="1">Flat</option>
+          <option value="2">Downsloping</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Major Vessels (CA)</label>
+        <select name="ca">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Thalassemia</label>
+        <select name="thal">
+          <option value="1">Normal</option>
+          <option value="2">Fixed Defect</option>
+          <option value="3">Reversible Defect</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" type="submit">🫀 Predict Now</button>
+  </form>
+
+  {% if result %}
+  <div class="result {{ color }}">{{ result }}</div>
+  {% endif %}
+
+  <p class="note">⚠️ This tool is for educational purposes only. Always consult a doctor.</p>
+</div>
+</body>
+</html>
